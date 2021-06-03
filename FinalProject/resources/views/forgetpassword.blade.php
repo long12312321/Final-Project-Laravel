@@ -32,9 +32,7 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Get Password </h2>
-                    @if (session('message'))
-							<span>{{session('message')}}</span>
-							@endif
+                  
                     <form method="POST"  action="{{route('ge')}}">
                       @csrf
                             <div class="col-2">
@@ -42,6 +40,9 @@
                                     <label class="label">Email</label>
                                     <input class="input--style-4" type="email" name="email">
                                 </div>
+                                <div class="alert ">
+								@error('email'){{$message}}@enderror	
+    					</div>
                             </div>    
                             <div class="row row-space">            
                         <div class="p-t-15">

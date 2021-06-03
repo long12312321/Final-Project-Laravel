@@ -282,27 +282,39 @@ $(document).ready(function(){
 				<div class="modal-body">
 				<div class="form-group">
 						<label>ID</label>
-						<input type="text" class="form-control" name="id" value="{{$post->id}}" disabled required>
+						<input type="text" class="form-control" name="id" value="{{$post->id}}" disabled >
 					</div>	
 							
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" class="form-control" name="title" value="{{$post->title}}" required>
+						<input type="text" class="form-control" name="title" value="{{$post->title}}" >
+						<div class="alert ">
+								@error('title'){{$message}}@enderror	
+    					</div>
 					</div>
 
 					<div class="form-group">
 						<label>Short_des</label>
-						<input type="text" class="form-control" name="short" value="{{$post->short_des}}" required>
+						<input type="text" class="form-control" name="short" value="{{$post->short_des}}" >
+						<div class="alert ">
+								@error('short'){{$message}}@enderror	
+    					</div>
 					</div>
 					
 				
 					<div class="form-group">
 						<label>Description</label>
                         <textarea class="form-control" name="descrip" row="3"  >{{$post->description}}</textarea>  
+						<div class="alert ">
+								@error('desctip'){{$message}}@enderror	
+    					</div>
 					</div>
 					<div class="form-group">
 						<label>Image</label>
-						<input type="text" class="form-control" name="image" value="{{$post->image}}" required>
+						<input type="text" class="form-control" name="image" value="{{$post->image}}" >
+						<div class="alert ">
+								@error('image'){{$message}}@enderror	
+    					</div>
 					</div>
 								
 				</div>

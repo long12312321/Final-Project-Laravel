@@ -18,21 +18,17 @@ class AdminController extends Controller
         return view('admin/adminUser',['list_user' => $list_user]);
     }
     public function getUser(Request $request){
-        $ema = $request->input("email");
-        $pass = $request->input("password");
-        $name = $request->input("name");
-        $checkAcc = DB::table('users')-> where('email',$ema)->first();
-            if($checkAcc){
-                return redirect()->route('ad')-> with ('message1','Email exists');
-            }else{
+        $request->validate([
+            'email' => "required|email|unique:users,email",
+            'password'  => 'required',
+            'name'  => 'required',
+        ]);
                 $user = new User();
-                $user->email = $ema;
-                $user->password = bcrypt($pass);
-                $user->name = $name;
+                $user->email = $request->input('email');
+                $user->password = bcrypt($request->input('email'));
+                $user->name = $request->input('name');
                 $user->save();
                 return redirect()->route('ad');
-            }
-       
     }
     public function deleteUser(Request $request){
         User::find($request->id)->delete();
@@ -43,22 +39,13 @@ class AdminController extends Controller
         return view('admin/editUser',['user' => $user]);
     }
     public function updateUser(Request $request ,$id){
-        $checkAcc = DB::table('users')-> where('id',$id)->value('email');
-        $email = DB::table('users')-> where('email',$request->input('email'))->value('email');
-            if($checkAcc == $email){
-                $user =User::find($id);
-                $user->id = $id;
-                $user->name = $request->input('name');
-                $user->email = $request->input('email');
-                $user->password = bcrypt($request->password);
-                $user->role = $request->input('role');
-                $user ->save();
-                return redirect()->route('ad'); 
-            }else{
-                $mail = DB::table('users')-> where('email',$email);
-                if($mail){
-                    return redirect()->route('ad')-> with ('message2','Email exists can not update');
-                }else{
+        $request->validate([
+            'email' => "required|email|unique:users,email,$id",
+            'password'  => 'required',
+            'name'  => 'required',
+            'role'  => 'required|int',
+
+        ]);
                     $user =User::find($id);
                     $user->id = $id;
                     $user->name = $request->input('name');
@@ -67,9 +54,7 @@ class AdminController extends Controller
                     $user->role = $request->input('role');
                     $user ->save();
                     return redirect()->route('ad'); 
-                }
             
-            } 
     }
 // Admin Post
     public function indexPost(){
@@ -82,10 +67,13 @@ class AdminController extends Controller
         $short = $request->input("short");
         $descrip = $request->input("descrip");
         $link_img = $request->input("image");
-        $checktitle = DB::table('posts')-> where('title',$title)->first();
-            if($checktitle){
-                return redirect()->route('ap')-> with ('message1','Title exists');
-            }else{
+        $request->validate([
+            'title' => "required|unique:posts,title|max:255",
+            'short'  => 'required',
+            'descrip' => 'required',
+            'image'  => 'required',
+
+        ]);
                 $post = new Post();
                 $post->title = $title;
                 $post->short_des = $short;
@@ -93,7 +81,6 @@ class AdminController extends Controller
                 $post->image = $link_img;
                 $post->save();
                 return redirect()->route('ap');
-            }
        
     }
     public function deletePost(Request $request){
@@ -105,9 +92,14 @@ class AdminController extends Controller
         return view('admin/editPost',['post' => $post]);
     }
     public function updatePost(Request $request ,$id){
-        $checktitle = DB::table('posts')-> where('id',$id)->value('title');
-        $title = DB::table('posts')-> where('title',$request->input('title'))->value('title');
-            if($checktitle == $title){
+        $request->validate([
+            'title' => "required|unique:posts,title,$id|max:255",
+            'short'  => 'required',
+            'descrip' => 'required',
+            'image'  => 'required',
+
+        ]);
+          
                 $post = Post::find($id);
                 $post->id = $id;
                 $post->title = $request->input('title');
@@ -116,22 +108,7 @@ class AdminController extends Controller
                 $post->image = $request->input('image');
                 $post ->save();
                 return redirect()->route('ap'); 
-            }else{
-                $ti = DB::table('posts')-> where('title',$title);
-                if($ti){
-                    return redirect()->route('ap')-> with ('message2','Title exists can not update');
-                }else{
-                    $post = Post::find($id);
-                    $post->id = $id;
-                    $post->title = $request->input('title');
-                    $post->short_des = $request->input('short');
-                    $post->description = $request->input('descrip');
-                    $post->image = $request->input('image');
-                    $post ->save();
-                    return redirect()->route('ap'); 
-                }
-            
-            } 
+        
     }
     // Admin Comment
     public function indexComment(){
@@ -140,25 +117,17 @@ class AdminController extends Controller
     }
 
     public function getComment(Request $request){
-        $user_id = $request->input("user_id");
-        $post_id = $request->input("post_id");
-        $con = $request->input("content");
-        $checkIdu = DB::table('users')-> where('id',$user_id)->first();
-        $checkIdp = DB::table('posts')-> where('id',$post_id)->first();
-        if($checkIdu){
-                if($checkIdp){
+        $request->validate([
+            'user_id' => "required|int|exists:users,id",
+            'post_id' => "required|int|exists:posts,id",
+            'content'  => 'required',
+        ]);
                     $comment = new Comment();
-                    $comment->users_id = $user_id;
-                    $comment->posts_id = $post_id;
-                    $comment->content = $con;
+                    $comment->users_id = $request->input("user_id");
+                    $comment->posts_id = $request->input("post_id");
+                    $comment->content = $request->input("content");
                     $comment->save();
                     return redirect()->route('ac');
-                }else{
-                    return redirect()->route('ac')-> with ('message','Post not exists');
-                }
-        }else{
-            return redirect()->route('ac')-> with ('message','User not exists');
-        }
             
        
     }
@@ -171,10 +140,11 @@ class AdminController extends Controller
         return view('admin/editComment',['comment' => $comment]);
     }
     public function updateComment(Request $request ,$id){
-        $checkIdu = DB::table('users')-> where('id',$request->input('user_id'))->first();
-        $checkIdp = DB::table('posts')-> where('id',$request->input('post_id'))->first();
-                if($checkIdu){
-                    if($checkIdp){
+        $request->validate([
+            'user_id' => "required|int|exists:users,id",
+            'post_id' => "required|int|exists:posts,id",
+            'content'  => 'required',
+        ]);
                         $comment = Comment::find($id);
                         $comment->id = $id;
                         $comment->users_id = $request->input('user_id');
@@ -182,12 +152,7 @@ class AdminController extends Controller
                         $comment->content = $request->input('content');
                         $comment ->save();
                         return redirect()->route('ac'); 
-                    }else{
-                        return redirect("editComment/$id")-> with ('message','Post not exists');
-                    }
-                }else{
-                    return redirect("editComment/$id")-> with ('message','User not exists');
-                }
+              
           
     }
 }

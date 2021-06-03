@@ -294,12 +294,10 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-			@if (session('message1'))
-                        <span>{{session('message1')}}</span>
-                        @endif
-						@if (session('message2'))
-                        <span>{{session('message2')}}</span>
-                        @endif
+			@error('title'){{$message}}@enderror
+			@error('short'){{$message}}@enderror
+			@error('descrip'){{$message}}@enderror
+			@error('image'){{$message}}@enderror	
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -356,11 +354,14 @@ $(document).ready(function(){
 				<div class="modal-body">					
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" class="form-control" name="title" required>
+						<input type="text" class="form-control" name="title" >
+						<div class="alert ">
+							
+    					</div>
 					</div>
 					<div class="form-group">
 						<label>Short_des</label>
-						<input type="text" class="form-control" name="short" required>
+						<input type="text" class="form-control" name="short" >
 					</div>
 					<div class="form-group">
 						<label>Description</label>
@@ -369,7 +370,7 @@ $(document).ready(function(){
 					</div>	
                     <div class="form-group">
 						<label>Image</label>
-						<input type="text" class="form-control" name="image" required>
+						<input type="text" class="form-control" name="image" >
 					</div>		
 				</div>
 				<div class="modal-footer">

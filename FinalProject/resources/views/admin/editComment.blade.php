@@ -285,23 +285,32 @@ $(document).ready(function(){
 				<div class="modal-body">
 				<div class="form-group">
 						<label>ID</label>
-						<input type="text" class="form-control" name="id" value="{{$comment->id}}" disabled required>
+						<input type="text" class="form-control" name="id" value="{{$comment->id}}" disabled >
 					</div>	
 							
 					<div class="form-group">
 						<label>User_id</label>
-						<input type="text" class="form-control" name="user_id" value="{{$comment->users_id}}" required>
+						<input type="text" class="form-control" name="user_id" value="{{$comment->users_id}}" >
+						<div class="alert ">
+								@error('user_id'){{$message}}@enderror	
+    					</div>
 					</div>
 
 					<div class="form-group">
 						<label>Post_id</label>
-						<input type="text" class="form-control" name="post_id" value="{{$comment->posts_id}}" required>
+						<input type="text" class="form-control" name="post_id" value="{{$comment->posts_id}}">
+						<div class="alert ">
+								@error('post_id'){{$message}}@enderror	
+    					</div>
 					</div>
 					
 				
 					<div class="form-group">
 						<label>Content</label>
-						<input type="text" class="form-control" name="content" value="{{$comment->content}}" required>
+						<input type="text" class="form-control" name="content" value="{{$comment->content}}">
+						<div class="alert ">
+								@error('content'){{$message}}@enderror	
+    					</div>
 					</div>
 						
 				</div>

@@ -39,29 +39,29 @@
                                     <label class="label">Email</label>
                                     <input class="input--style-4" type="email" name="email">
                                 </div>
+                                @error('email'){{$message}}@enderror	
                             </div>
-                            @if (session('message1'))
-                        <span>{{session('message1')}}</span>
-                        @endif
+                            
                         <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Password</label>
                                     <input class="input--style-4" type="text" name="pass">
                                 </div>
+                                @error('pass'){{$message}}@enderror	
                             </div>
-                            @if (session('message3'))
-                        <span>{{session('message3')}}</span>
-                        @endif
+                           
                         <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Confirm Password</label>
                                     <input class="input--style-4" type="text" name="cofirm">
                                 </div>
+                                @error('cofirm'){{$message}}@enderror	
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Name</label>
                                     <input class="input--style-4" type="text" name="name">
+                                    @error('name'){{$message}}@enderror	
                                 </div>
                             </div>   
                              <div class="row row-space">              

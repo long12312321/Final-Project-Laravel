@@ -294,12 +294,9 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-			@if (session('message1'))
-                        <span>{{session('message1')}}</span>
-                        @endif
-						@if (session('message2'))
-                        <span>{{session('message2')}}</span>
-                        @endif
+			@error('user_id'){{$message}}@enderror	
+			@error('post_id'){{$message}}@enderror	
+			@error('content'){{$message}}@enderror	
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>

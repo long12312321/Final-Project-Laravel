@@ -282,27 +282,40 @@ $(document).ready(function(){
 				<div class="modal-body">
 				<div class="form-group">
 						<label>ID</label>
-						<input type="text" class="form-control" name="id" value="{{$user->id}}" disabled required>
+						<input type="text" class="form-control" name="id" value="{{$user->id}}" disabled >
 					</div>	
 							
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" class="form-control" name="name" value="{{$user->name}}" required>
+						<input type="text" class="form-control" name="name" value="{{$user->name}}" >
+						<div class="alert ">
+								@error('name'){{$message}}@enderror	
+    					</div>
 					</div>
+					
 
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" class="form-control" name="email" value="{{$user->email}}" required>
+						<input type="text" class="form-control" name="email" value="{{$user->email}}" >
+						<div class="alert ">
+								@error('email'){{$message}}@enderror	
+    					</div>
 					</div>
 					
 				
 					<div class="form-group">
 						<label>Password</label>
-						<input type="text" class="form-control" name="password" value="{{$user->password}}" required>
+						<input type="text" class="form-control" name="password" value="{{$user->password}}" >
+						<div class="alert ">
+								@error('password'){{$message}}@enderror	
+    					</div>
 					</div>
 					<div class="form-group">
 						<label>Role</label>
-						<input type="text" class="form-control" name="role" value="{{$user->role}}" required>
+						<input type="text" class="form-control" name="role" value="{{$user->role}}" >
+						<div class="alert ">
+								@error('role'){{$message}}@enderror	
+    					</div>
 					</div>
 								
 				</div>

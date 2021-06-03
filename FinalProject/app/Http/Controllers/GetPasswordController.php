@@ -8,18 +8,22 @@ use DB;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Validator;
+
 
 class GetPasswordController extends Controller
 {
     public function index(){
         return view('forgetpassword');
     }
-    public function postGetPass(Request $request){
+    public function postGetPass(Request $request){     
+       $request->validate([
+        'email' => 'required|email|exists:users,email',
+       ]);
         $mail = $request->input('email');
         $random = Str::random(6);
-        $checkEmail = DB::table('users')-> where('email',$mail)->count();
          DB::table('users')-> where('email',$mail)->update(['password' =>  bcrypt($random)]);
-        if($checkEmail ==1){
+
             $details =[
                 'email'=> $mail,
                 'pass'=> $random
@@ -30,8 +34,5 @@ class GetPasswordController extends Controller
             $message->subject('Send passwordd');
         });
                  return redirect()->route('logi')->with('forgetPass','Password sent email');
-        }else{
-            return redirect()->route('getPass')->with('message','Mail not exist ');
-        }
     }
 }
